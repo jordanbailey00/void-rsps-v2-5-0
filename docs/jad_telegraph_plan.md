@@ -82,7 +82,9 @@ So the current onset-to-resolution window is `6` game ticks total:
 ### 5. Current headless observation construction
 
 - Headless observations are built in [HeadlessObservationBuilder.kt](/home/jordan/code/fight-caves-RL/game/src/main/kotlin/HeadlessObservationBuilder.kt).
-- The default observation currently exposes no Jad-specific telegraph cue.
+- The default observation now exposes the additive NPC field `jad_telegraph_state`.
+- This field is a semantic rendering of the same authoritative Jad telegraph state that drives the headed cue.
+- Downstream optimization implication: any future flat training schema must preserve this cue's meaning and timing exactly rather than replacing it with a prayer oracle or countdown.
 
 ### 6. Current replay/parity serialization
 

@@ -2,6 +2,10 @@
 
 ## 2026-03-09
 
+- Corrected the Jad telegraph source-of-truth doc so it reflects the current completed state rather than the pre-implementation starting point.
+- Recorded the downstream optimization implication in `docs/jad_telegraph_plan.md`:
+  - the new headless Jad cue is now part of the protected raw semantic contract and must remain semantically identical in any future flat training schema
+
 - Updated the Jad telegraph source-of-truth document to close out the remaining mini-rework chunks:
   - `JAD-05` regression gate
   - `JAD-06` replay/demo outcome acceptance

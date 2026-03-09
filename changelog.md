@@ -2,6 +2,20 @@
 
 ## 2026-03-09
 
+- Updated the Jad telegraph source-of-truth document to close out the remaining mini-rework chunks:
+  - `JAD-05` regression gate
+  - `JAD-06` replay/demo outcome acceptance
+- Mirrored the authoritative Jad telegraph outcome/timing state extensions into the headed RSPS code path:
+  - `prayer_check_tick`
+  - `sampled_protection_prayer`
+  - `protected_at_prayer_check`
+  - `resolved_damage`
+  - retained last-attack telegraph timing for post-resolution trace inspection
+- Preserved the same combat timing contract:
+  - telegraph onset still anchors to headed animation start
+  - prayer timing still remains at the existing hit-construction point
+  - no oracle field or headless-only mechanic was introduced
+
 - Updated the Jad telegraph source-of-truth document to reflect completed work:
   - `JAD-03` headless observation exposure
   - `JAD-04` replay/parity trace wiring

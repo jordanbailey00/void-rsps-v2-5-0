@@ -13,7 +13,8 @@ class TzTokJad : Script {
             val target = target ?: return@npcAttack
             // Note: Override for jad only, don't use elsewhere
             strongQueue("hit_target", JAD_HIT_TARGET_QUEUE_TICKS) {
-                hit(target, offensiveType = "magic", delay = JAD_HIT_CLIENT_DELAY, damage = Damage.roll(this@npcAttack, target, offensiveType = "magic", range = 0..950))
+                val resolvedDamage = hit(target, offensiveType = "magic", delay = JAD_HIT_CLIENT_DELAY, damage = Damage.roll(this@npcAttack, target, offensiveType = "magic", range = 0..950))
+                recordJadAttackOutcome(target, resolvedDamage)
             }
         }
 
@@ -21,7 +22,8 @@ class TzTokJad : Script {
             val target = target ?: return@npcAttack
             // Note: Override for jad only, don't use elsewhere
             strongQueue("hit_target", JAD_HIT_TARGET_QUEUE_TICKS) {
-                hit(target, offensiveType = "range", delay = JAD_HIT_CLIENT_DELAY, damage = Damage.roll(this@npcAttack, target, offensiveType = "range", range = 0..970))
+                val resolvedDamage = hit(target, offensiveType = "range", delay = JAD_HIT_CLIENT_DELAY, damage = Damage.roll(this@npcAttack, target, offensiveType = "range", range = 0..970))
+                recordJadAttackOutcome(target, resolvedDamage)
             }
         }
     }

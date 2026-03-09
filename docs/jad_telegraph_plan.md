@@ -72,8 +72,12 @@ So the current onset-to-resolution window is `6` game ticks total:
 - Prayer/damage semantics remain in the existing hit/damage path:
   - [Hit.kt](/home/jordan/code/fight-caves-RL/game/src/main/kotlin/content/entity/combat/hit/Hit.kt)
   - [Damage.kt](/home/jordan/code/fight-caves-RL/game/src/main/kotlin/content/entity/combat/hit/Damage.kt)
+- Jad-specific timing nuance confirmed by regression tests:
+  - the telegraph-to-damage span is still `6` game ticks
+  - but prayer protection is applied when the queued `hit(...)` is constructed after the Jad-specific `3`-tick windup
+  - the later delayed `directHit(...)` landing tick does not reopen the prayer decision window
 - Prayer protection must continue to be evaluated exactly where the current combat engine already evaluates it.
-- This rework must not move prayer evaluation earlier.
+- This rework must not move prayer evaluation earlier or later.
 
 ### 5. Current headless observation construction
 
@@ -114,8 +118,9 @@ Preserve the current combat engine prayer-check timing exactly as it exists toda
 
 Interpretation:
 
-- if prayer is checked at projectile impact or hit resolution tick, keep that behavior
-- do not move prayer evaluation earlier
+- current code inspection and regression coverage confirm that Jad protection is sampled when the queued `hit(...)` is constructed after the `3`-tick windup
+- the later delayed visual impact tick does not reopen the decision window
+- do not move prayer evaluation earlier or later
 - the telegraph state must not alter damage-resolution semantics
 
 ### 4. Authoritative contract
@@ -215,20 +220,34 @@ Required output:
 - oracle-vs-headless timing parity tests
 - replay/demo trace assertions
 
+### JAD-06 Replay/demo outcome acceptance
+
+Purpose:
+
+- prove that telegraphed Jad prayer outcomes and resolve timing stay aligned across oracle and headless
+
+Required output:
+
+- replay/parity tests that carry a telegraphed Jad attack through hit resolution
+- assertions that the same resolve tick and prayer-dependent damage outcome hold in oracle and headless
+- assertions that replay/parity traces retain the last Jad telegraph timing plus committed prayer-sampling outcome after the telegraph clears back to idle
+- targeted Jad-trace assertions when unrelated oracle-side world activity would make whole-snapshot equality too noisy for this mini-rework
+- active work-chunk status updated to reflect the mini-rework closeout state
+
 ## Active Work Chunks
 
 ### WC-JAD-01
 
-- freeze current Jad timing and cue integration points
-- codify the current onset-to-resolution timing constants
-- document the parity anchor explicitly
+- [x] freeze current Jad timing and cue integration points
+- [x] codify the current onset-to-resolution timing constants
+- [x] document the parity anchor explicitly
 
 ### WC-JAD-02
 
-- add authoritative Jad telegraph state
-- begin telegraph on the current headed animation tick
-- keep prayer-check timing unchanged
-- keep headed cue timing unchanged
+- [x] add authoritative Jad telegraph state
+- [x] begin telegraph on the current headed animation tick
+- [x] keep prayer-check timing unchanged
+- [x] keep headed cue timing unchanged
 
 ### WC-JAD-03
 
@@ -242,4 +261,41 @@ Required output:
 
 ### WC-JAD-05
 
-- add lifecycle, protection, observation, parity, and regression tests
+- [x] add lifecycle, protection, observation, parity, and regression tests
+- [x] prove that Jad prayer protection is sampled at queued-hit construction, not at the later delayed visual landing tick
+- [x] prove that no direct correct-prayer oracle is exposed
+
+### WC-JAD-06
+
+- [x] add replay/parity outcome assertions through Jad hit resolution
+- [x] retain last-attack telegraph timing and outcome fields in replay/parity traces after the active telegraph clears
+- [x] close the mini-rework with an explicit acceptance-status update
+
+## Acceptance Status
+
+This mini-rework is complete when evaluated against the scoped Jad telegraph requirements.
+
+Completed:
+
+- authoritative Jad telegraph state/event exists in shared combat logic
+- headed animation onset remains the canonical telegraph start tick
+- headless observation now exposes the telegraph signal without exposing the answer
+- replay/parity traces now carry:
+  - telegraph onset tick
+  - hit resolve tick
+  - prayer check tick
+  - sampled protection prayer state
+  - protection outcome
+  - resolved damage
+- regression coverage now proves:
+  - lifecycle correctness
+  - observation correctness
+  - protection semantics
+  - oracle leakage guard
+  - replay/parity outcome visibility
+
+Important implementation note:
+
+- current engine truth is that Jad prayer is sampled at queued-hit construction after the `3`-tick windup
+- the later delayed hit landing remains the visual/resolve point, but it is not the point where the protection decision is made
+- this mini-rework preserved that engine behavior exactly and made it explicit in the shared telegraph/outcome trace

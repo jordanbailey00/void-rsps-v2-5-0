@@ -1,5 +1,19 @@
 # changelog.md
 
+## 2026-03-09
+
+- Added the Jad telegraph mini-rework source-of-truth document in:
+  - `docs/jad_telegraph_plan.md`
+- Recorded the resolved parity assumptions for Jad telegraph implementation:
+  - canonical onset tick is the current headed animation start tick
+  - dialog/audio is not the timing anchor
+  - prayer-check timing must remain unchanged
+- Mirrored the first shared-code Jad telegraph changes from `fight-caves-RL` into the headed RSPS code path:
+  - added `game/src/main/kotlin/content/area/karamja/tzhaar_city/JadTelegraph.kt`
+  - updated `game/src/main/kotlin/content/entity/npc/combat/Attack.kt`
+  - updated `game/src/main/kotlin/content/area/karamja/tzhaar_city/TzTokJad.kt`
+- This step formalizes the authoritative Jad telegraph state in the headed code path without exposing any oracle field or changing combat timing.
+
 ## 2026-03-08
 
 - Replaced the root RSPS placeholder docs with minimum viable source-of-truth documentation:

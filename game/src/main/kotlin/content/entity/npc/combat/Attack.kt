@@ -1,5 +1,6 @@
 package content.entity.npc.combat
 
+import content.area.karamja.tzhaar_city.beginJadTelegraphForAttack
 import content.entity.combat.hit.Damage
 import content.entity.combat.hit.Hit
 import content.entity.combat.hit.hit
@@ -50,6 +51,7 @@ class Attack(
                 return@npcCombatSwing
             }
             var attack = selectAttack(this, primaryTarget, definition) ?: return@npcCombatSwing
+            beginJadTelegraphForAttack(attack.id)
             // Source
             play(attack.anim)
             play(attack.gfx)

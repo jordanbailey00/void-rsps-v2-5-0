@@ -2,6 +2,11 @@
 
 ## 2026-03-09
 
+- Updated the Jad telegraph source-of-truth document to reflect completed work:
+  - `JAD-03` headless observation exposure
+  - `JAD-04` replay/parity trace wiring
+- The RSPS doc remains the planning/source-of-truth location for this mini-rework, while the actual headless observation and replay/parity implementation lives in `fight-caves-RL` and `RL`.
+
 - Added the Jad telegraph mini-rework source-of-truth document in:
   - `docs/jad_telegraph_plan.md`
 - Recorded the resolved parity assumptions for Jad telegraph implementation:

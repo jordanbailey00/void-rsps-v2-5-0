@@ -232,14 +232,14 @@ Required output:
 
 ### WC-JAD-03
 
-- expose Jad telegraph state to headless observation
-- update RL-side observation contract only after the sim-side telegraph contract is in place
+- [x] expose Jad telegraph state to headless observation
+- [x] update RL-side observation contract only after the sim-side telegraph contract is in place
 
 ### WC-JAD-04
 
-- extend parity/replay traces with Jad telegraph timing and outcome fields
+- [x] extend parity/replay traces with Jad telegraph timing fields derived from the same authoritative state
+- [x] prove oracle/headless trace alignment for a single telegraph event
 
 ### WC-JAD-05
 
 - add lifecycle, protection, observation, parity, and regression tests
-
